@@ -9,7 +9,7 @@ class Reuse {
     const keys = {
       client_id: "5USGS1RXTVATAPJYFDV2LYRB024NJX2JLCZ2QFPWQCIR4DLA",
       client_secret: "RC2BTGDFAJITR3DG40CJGYC2HJBGKJMEHLBSBLHUMOXX2UDR",
-      v: "20181124" //version as of developing date
+      v: "20181202" //version as of developing date
     };
     return Object.keys(keys)
       .map(key => `${key}=${keys[key]}`)

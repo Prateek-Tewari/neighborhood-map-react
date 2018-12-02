@@ -1,10 +1,10 @@
+/* Making all the necessary imports*/
 import React, { Component } from "react";
 import "./App.css";
 import Map from "./components/Map";
-import fourSquare from "./API";
+import fourSquare from "./API/";
 import SideBar from "./components/SideBar";
 import Error from "./Error";
-
 class App extends Component {
   constructor() {
     super();
@@ -12,7 +12,7 @@ class App extends Component {
       venues: [],
       markers: [],
       center: [],
-      zoom: 14,
+      zoom: 12,
       updateSuperState: obj => {
         this.setState(obj);
       }
@@ -27,12 +27,13 @@ class App extends Component {
       markers: Object.assign(this.state.markers, markers)
     });
   };
-  /*Referred from coursework InfoWindow https://github.com/udacity/ud864/blob/master/Project_Code_3_WindowShoppingPart1.html*/
-  //Markers are handled along with the venues selected in ListView
+  /*Attribution - https://github.com/udacity/ud864/blob/master/Project_Code_3_WindowShoppingPart1.html
+  Markers are handled along with the venues selected in ListView*/
   handleMarker = marker => {
     this.closeAllMarkers();
     marker.isOpen = true;
-    this.setState({ markers: Object.assign(this.state.markers, marker) }); //Object.assign helps Copying Marker into the state. Referred: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
+    this.setState({ markers: Object.assign(this.state.markers, marker) });
+    //Object.assign helps Copying Marker into the state. Referred from various resources, mainly StackOverflow.
     const venue = this.state.venues.find(venue => venue.id === marker.id);
     fourSquare.getVenue(marker.id).then(res => {
       const newVenue = Object.assign(venue, res.response.venue);
@@ -44,25 +45,23 @@ class App extends Component {
     const marker = this.state.markers.find(marker => marker.id === venue.id);
     this.handleMarker(marker);
   };
-  //authFailure is catched here if any
+  //Catching the authentication failure
   authFailure = error => {
     this.setState({
       errorDisplay: error
     });
   };
-  //Marker Positions are fetched Async from FourSquare and catches error helps to display in the UI
+  //Marker Positions are fetched Asynchronously from FourSquare
   componentDidMount() {
     fourSquare
       .search({
-        near: "Dehradun, IN", //fetching my HomeTown!
-        query: <SideBar {...this.state} />,
+        near: "Dehradun, IN", //my place :)
+        query: "School", //This is , what my place is famous for
         limit: 10
       })
       .then(results => {
         const { venues } = results.response;
-        const {
-          center
-        } = results.response.geocode.feature.geometry; /* Destructuring the constructor with this syntax */
+        const { center } = results.response.geocode.feature.geometry; // Destructuring the constructor with this syntax
         const markers = venues.map(venue => {
           return {
             lat: venue.location.lat,
@@ -89,7 +88,7 @@ class App extends Component {
       <div className="App" role="application">
         {console.log(this.state.errorDisplay)}
         {this.state.errorDisplay && (
-          <Error errorDisplay={this.state.errorDisplay} /> //checks for error if any to show up in the console
+          <Error errorDisplay={this.state.errorDisplay} /> //Checking for possible errors
         )}
         <SideBar {...this.state} handleListItem={this.handleListItem} />
         <Map

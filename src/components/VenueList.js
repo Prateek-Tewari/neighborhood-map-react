@@ -1,8 +1,9 @@
+/* Making all the necessary imports*/
 import React, { Component } from "react";
 import ListView from "./ListView";
-//rendering of lists done here with Foursquare API
-//Seperate VenueList component to render single sidebar with lists.
-export default class VenueList extends Component {
+
+//Rendering a list here with the help of Foursquare API
+class VenueList extends Component {
   render() {
     return (
       <ol className="venueList">
@@ -18,3 +19,4 @@ export default class VenueList extends Component {
     );
   }
 }
+export default VenueList;

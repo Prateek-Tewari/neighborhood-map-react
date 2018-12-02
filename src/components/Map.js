@@ -1,7 +1,8 @@
 /* global google */
+/* Making all the necessary imports*/
 import React, { Component } from "react";
 import mainLogo from "../icons8-region-50.png";
-import WikiInfo from "./WikiInfo";
+//import SelectBox from "./SelectBox";
 import {
   withScriptjs,
   withGoogleMap,
@@ -10,9 +11,6 @@ import {
   InfoWindow
 } from "react-google-maps";
 
-/*
-  Referred from React Library as suggested in classrooms https://tomchentw.github.io/react-google-maps/#usage--configuration
-*/
 //Marker and InfoWindow is rendered here
 const MyMapComponent = withScriptjs(
   withGoogleMap(props => (
@@ -35,6 +33,7 @@ const MyMapComponent = withScriptjs(
                 key={id}
                 position={{ lat: marker.lat, lng: marker.lng }}
                 onClick={() => props.handleMarker(marker)}
+                //Marker Animations Reference: https://developers.google.com/maps/documentation/javascript/examples/marker-animations
                 animation={
                   markerCount.length === 1
                     ? google.maps.Animation.BOUNCE
@@ -42,23 +41,22 @@ const MyMapComponent = withScriptjs(
                 }
               >
                 {marker.isOpen && (
+                  //InfoWindow Referred from: https://github.com/udacity/ud864/blob/master/Project_Code_3_WindowShoppingPart1.html
                   <InfoWindow>
                     <div>
                       <h1> {venueInfo.name} </h1>
                       <p>{venueInfo.location.address}</p>
-                      <p>{<WikiInfo />}</p>
                     </div>
                   </InfoWindow>
                 )}
               </Marker>
-            ); /*Referred Course work for InfoWindows: https://github.com/udacity/ud864/blob/master/Project_Code_3_WindowShoppingPart1.html
-        And for Marker Animations: https://developers.google.com/maps/documentation/javascript/examples/marker-animations*/
+            );
           })}
     </GoogleMap>
   ))
 );
 
-//Checks for Auth failure and then renders map with Marker and InfoWindow
+//Checks for authFailure and then renders map with Marker and InfoWindow
 class Map extends Component {
   componentDidMount() {
     window.gm_authFailure = this.gm_authFailure;

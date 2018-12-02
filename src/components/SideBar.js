@@ -1,31 +1,16 @@
+/* Making all the necessary imports*/
 import React, { Component } from "react";
 import VenueList from "./VenueList";
-//referred walkthrough of Forrest for SideBar stuffs: https://www.youtube.com/watch?v=lDVaZY0aG2w&t=0s&list=PL4rQq4MQP1crXuPtruu_eijgOUUXhcUCP&index=7
-
-const categories = [
-  "Food",
-  "School",
-  "College",
-  "Temple",
-  "Sports",
-  "Restaurant",
-  "Hotel",
-  "Travel",
-  "Mall",
-  "Cinema",
-  "Sweet Shop"
-];
 
 class SideBar extends Component {
   constructor() {
     super();
     this.state = {
       query: "",
-      venues: [],
-      categories: []
+      venues: []
     };
   }
-  //handles Filtering of Markers and ListView based on Query in search box
+  //Filtering Markers on Map
   handleFilterVenues = () => {
     if (this.state.query.trim() !== "") {
       const venues = this.props.venues.filter(venue =>
@@ -53,29 +38,17 @@ class SideBar extends Component {
     });
     this.props.updateSuperState({ markers });
   };
-  //renders the sidebar which has all the list of food stall available in Salem, India
+  //Renders the SideMenu, which populates the list of first 10 schools of Dehradun, India
   render() {
     return (
       <div className="sideBar">
-        <select
-          id="select"
-          value={this.state.value}
-          onChange={this.handleChange}
-        >
-          <option value="Select">Choose an option</option>
-          {categories.map(category => (
-            <option key={category} value={category}>
-              {category}
-            </option>
-          ))}
-        </select>
-        {/* <input
-          type={"select"}
+        <input
+          type={"search"}
           tabIndex={0}
-          id="select"
-          placeholder="Select Type of Place"
+          id="search"
+          placeholder="Search Places"
           onChange={this.handleChange}
-        /> */}
+        />
         <VenueList
           {...this.props}
           venues={this.handleFilterVenues()}
@@ -87,7 +60,6 @@ class SideBar extends Component {
             src="https://ss0.4sqi.net/img/poweredByFoursquare/poweredby-one-color-cdf070cc7ae72b3f482cf2d075a74c8c.png"
             alt="Powered by Foursquare"
           />
-          <p style={{ fontSize: "12px", fontStyle: "italic", color: "red" }} />
         </div>
       </div>
     );

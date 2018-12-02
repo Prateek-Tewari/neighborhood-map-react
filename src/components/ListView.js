@@ -1,6 +1,7 @@
+/* Making all the necessary imports*/
 import React, { Component } from "react";
-//exports the list rendered from given places from FourSquare
-export default class ListView extends Component {
+
+class ListView extends Component {
   onClickHandler = event => {
     if (event.key === "Enter" || event.type === "click") {
       this.props.handleListItem(this.props);
@@ -14,3 +15,4 @@ export default class ListView extends Component {
     );
   }
 }
+export default ListView;
