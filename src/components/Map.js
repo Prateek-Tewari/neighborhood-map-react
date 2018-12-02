@@ -1,7 +1,7 @@
 /* global google */
 /* Making all the necessary imports*/
 import React, { Component } from "react";
-import mainLogo from "../icons8-region-50.png";
+import mainLogo from "../icons8-region-50.png";//Changing Default marker
 //import SelectBox from "./SelectBox";
 import {
   withScriptjs,
