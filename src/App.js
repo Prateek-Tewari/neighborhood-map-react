@@ -4,14 +4,14 @@ import "./App.css";
 import Map from "./components/Map";
 import fourSquare from "./API/";
 import SideBar from "./components/SideBar";
-import Error from "./Error";
+
 class App extends Component {
   constructor() {
     super();
     this.state = {
       venues: [],
       markers: [],
-      center: [],
+      //center: [],
       zoom: 12,
       updateSuperState: obj => {
         this.setState(obj);
@@ -45,12 +45,7 @@ class App extends Component {
     const marker = this.state.markers.find(marker => marker.id === venue.id);
     this.handleMarker(marker);
   };
-  //Catching the authentication failure
-  authFailure = error => {
-    this.setState({
-      errorDisplay: error
-    });
-  };
+
   //Marker Positions are fetched Asynchronously from FourSquare
   componentDidMount() {
     fourSquare
@@ -61,8 +56,11 @@ class App extends Component {
       })
       .then(results => {
         const { venues } = results.response;
-        const { center } = results.response.geocode.feature.geometry; // Destructuring the constructor with this syntax
+        // const { center } = results.response.geocode.feature.geometry; //
+        //console.log(center);
+        //Destructuring the constructor with this syntax
         const markers = venues.map(venue => {
+          //console.log(venue.location.lat);
           return {
             lat: venue.location.lat,
             lng: venue.location.lng,
@@ -71,31 +69,24 @@ class App extends Component {
             id: venue.id
           };
         });
-        this.setState({ venues, center, markers });
+        // console.log(center);
+        this.setState({ venues, markers });
       })
-      .catch(err => {
-        new Error(console.log(err));
-        this.setState(prevState => ({
-          errorDisplay:
-            prevState.errorDisplay.length === 0
-              ? err.toString()
-              : prevState.errorDisplay
-        }));
+      .catch(function(err) {
+        alert(
+          `Error occurred while fetching data from server, app may not work correctly: ${err}`
+        );
       });
   }
   render() {
     return (
       <div className="App" role="application">
-        {console.log(this.state.errorDisplay)}
-        {this.state.errorDisplay && (
-          <Error errorDisplay={this.state.errorDisplay} /> //Checking for possible errors
-        )}
         <SideBar {...this.state} handleListItem={this.handleListItem} />
         <Map
           role="main"
           {...this.state}
-          authFailure={this.authFailure}
           handleMarker={this.handleMarker}
+          closeAllMarkers={this.closeAllMarkers}
         />
       </div>
     );
