@@ -9,7 +9,12 @@ class ListView extends Component {
   };
   render() {
     return (
-      <li tabIndex={0} className="listView" onClick={this.onClickHandler}>
+      <li
+        tabIndex={0}
+        className="listView"
+        aria-labelledby="sideList"
+        onClick={this.onClickHandler}
+      >
         {this.props.name}
       </li>
     );
