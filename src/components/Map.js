@@ -1,7 +1,7 @@
 /* global google */
 /* Making all the necessary imports*/
 import React, { Component } from "react";
-import mainLogo from "../icons8-region-50.png";//Changing Default marker
+import mainLogo from "../icons8-region-50.png";
 //import SelectBox from "./SelectBox";
 import {
   withScriptjs,
@@ -18,12 +18,13 @@ const MyMapComponent = withScriptjs(
       defaultZoom={11}
       zoom={props.zoom}
       defaultCenter={{ lat: 30.3165, lng: 78.0322 }}
-      center={props.center}
+      // center={{ lat: props.center.lat, lng: props.center.lng }}
     >
       {props.markers &&
         props.markers
           .filter(marker => marker.isVisible)
           .map((marker, id, markerCount) => {
+            //console.log(typeof marker.lng);
             const venueInfo = props.venues.find(
               venue => venue.id === marker.id
             );
@@ -42,7 +43,11 @@ const MyMapComponent = withScriptjs(
               >
                 {marker.isOpen && (
                   //InfoWindow Referred from: https://github.com/udacity/ud864/blob/master/Project_Code_3_WindowShoppingPart1.html
-                  <InfoWindow>
+                  <InfoWindow
+                    onCloseClick={() => {
+                      props.closeAllMarkers();
+                    }}
+                  >
                     <div>
                       <h1> {venueInfo.name} </h1>
                       <p>{venueInfo.location.address}</p>
