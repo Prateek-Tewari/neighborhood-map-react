@@ -45,6 +45,10 @@ body,
   font-weight: bold;
   box-shadow: 1px 10px 10px rgba(0, 0, 255, 0.25);
 }
+.App .sideBar .venueList .listView:focus {
+  outline: 0;
+  border: 1px solid rgb(247, 247, 247);
+}
 
 @keyframes App-logo-spin {
   from {
